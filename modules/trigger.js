@@ -1,54 +1,43 @@
-const xTouchBase = require("../index")
-//const internalEvents = require('./emitter');
-const globalEmitter = require('./emitter');
-const { globalEvents } = require("../index")
+var em = require('./emitter');
+var globalEvents = em.globalEvents
 
 const Buttons = require('../settings/buttons');
-
-class triggerXTouch extends xTouchBase {
-    constructor() {
-        super();
-        let receiver = new xTouchBase();
-        receiver.on("msg", (msg) => console.log("msg triggered in trigger"))
-        this.on("message", (msg) => console.log("triggered in trigger"));
-        globalEvents.on("midiEvent", value => console.log("triggered in trigger by internal"))
-        //this.input.on("message", this.onMidiMessage.bind(this));
-    }
+class triggerXTouch {
 
     /**
-     * Callback on MIDI message received.
+     * Function called on midi message incomming
      * 
-     * @param {float} deltaTime Time since last event on the track
-     * @param {array} msg The received message
+     * @param {any} parent which is this
+     * @param {float} deltaTime time since last event
+     * @param {array} msg the received message
      */
-    onMidiMessage(deltaTime, msg) {
-        // Extract components from the MIDI command
+    static onMidiMessage(parent, deltaTime, msg) {
         let [cmdType, target, value] = msg;
 
-        this.emit("debug", "MIDI message: " + msg);
+        parent.emit("debug", "MIDI message: " + msg);
 
-        // Handle only notes and CC
-        if (VALID_CMD_TYPES.includes(cmdType)) {
-            // Button presses
-            if (cmdType == Buttons.Prefix && Buttons.match(target)) {
-                let eventName = value == Buttons.PressStatus.ON ? "btnpress" : "btnrelease";
-                this.emit("debug", "Button " + eventName.substring(3) + ": " + Controls.ButtonNames[target]);
-                this.emit(eventName, target);
-            }/* else if (target == Controls.Encoder) {
+        if (cmdType == Buttons.Prefix && Buttons.match(target)) {
+            let eventName = value == Buttons.PressStatus.ON ? "btnpress" : "btnrelease";
+            parent.emit("debug", "Button " + eventName.substring(3) + ": " + Buttons.names[target]);
+            parent.emit(eventName, target, deltaTime);
+        }
+
+
+        /* else if (target == Controls.Encoder) {
                 // Guess encoder mode
                 if (RELATIVE_ENCODER_VALUES.includes(value)) {
-                    this.encoderMode = Controls.EncoderMode.RELATIVE;
+                    parent.encoderMode = Controls.EncoderMode.RELATIVE;
                 } else {
-                    this.encoderMode = Controls.EncoderMode.ABSOLUTE;
+                    parent.encoderMode = Controls.EncoderMode.ABSOLUTE;
                 }
     
-                this.emit("encoder", value);
+                parent.emit("encoder", value);
             } else if (target == Controls.Fader) {
-                this.emit("fader", value);
+                parent.emit("fader", value);
             } else if (target == Controls.Jogwheel) {
-                this.emit("jogwheel", value);
+                parent.emit("jogwheel", value);
             }*/
-        }
+
     }
 }
 module.exports = triggerXTouch;

@@ -2,7 +2,6 @@ const xTouchBase = require("../index")
 
 class connectingXTouch extends xTouchBase {
 
-
     /**
      * Connects to the X-Touch. If no input/output device is provided, it will be auto-guessed.
      * 
@@ -96,5 +95,6 @@ class connectingXTouch extends xTouchBase {
 
         return devices;
     }
+
 }
 module.exports = connectingXTouch

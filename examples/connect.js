@@ -4,7 +4,7 @@ let surface = new xTouch();
 
 surface.on("debug", (msg) => console.info("[Debug]", msg));
 surface.on("error", (msg) => console.info("[Error]", msg));
-surface.on("btnpress", (btn) => console.log("btn pressed"));
+// surface.on("btnpress", (btn) => console.log("btn pressed"));
 
 
 surface.getDevices()
