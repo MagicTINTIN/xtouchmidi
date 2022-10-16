@@ -1,9 +1,8 @@
 const xTouchBase = require("../index")
-
-class connectingXTouch extends xTouchBase {
+class connection extends xTouchBase {
 
     /**
-     * Connects to the X-Touch. If no input/output device is provided, it will be auto-guessed.
+     * Connects to the X-Touch.
      * 
      * @param {int} midiInput Midi input device number.
      * @param {int} midiOutput Midi output device number.
@@ -97,4 +96,4 @@ class connectingXTouch extends xTouchBase {
     }
 
 }
-module.exports = connectingXTouch
+module.exports = connection;

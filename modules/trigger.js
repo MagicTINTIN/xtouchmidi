@@ -1,13 +1,10 @@
-var em = require('./emitter');
-var globalEvents = em.globalEvents
-
 const Buttons = require('../settings/buttons');
 class triggerXTouch {
 
     /**
      * Function called on midi message incomming
      * 
-     * @param {any} parent which is this
+     * @param {any} parent (generally this)
      * @param {float} deltaTime time since last event
      * @param {array} msg the received message
      */
